@@ -99,10 +99,8 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupLights(GL2 gl) {
 		if (isDayMode) {
-
 			gl.glDisable(16385);
-			// setupSun(gl, 16384);
-
+			setupSun(gl, 16384);
 		} else {
 			setupMoon(gl);
 			float[] pos1 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
@@ -114,14 +112,17 @@ public class NeedForSpeed implements GLEventListener {
 		}
 	}
 
-	/*
-	 * private void setupSun(GL2 gl, int light) { float[] sunColor = { 1.0F, 1.0F,
-	 * 1.0F, 1.0F }; Vec dir = new Vec(0.0D, 1.0D, 1.0D).normalize(); float[] pos =
-	 * { x, y, z, 0.0F }; gl.glLightfv(light, 4610, sunColor, 0);
-	 * gl.glLightfv(light, 4609, sunColor, 0); gl.glLightfv(light, 4611, pos, 0);
-	 * gl.glLightfv(light, 4608, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
-	 * gl.glEnable(light); }
-	 */
+	private void setupSun(GL2 gl, int light) {
+		float[] sunColor = { 1.0F, 1.0F, 1.0F, 1.0F };
+		float[] pos = {0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
+				-0.0F + carCameraTranslation.z, 1.0F };
+		gl.glLightfv(light, 4610, sunColor, 0);
+		gl.glLightfv(light, 4609, sunColor, 0);
+		gl.glLightfv(light, 4611, pos, 0);
+		gl.glLightfv(light, 4608, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
+		gl.glEnable(light);
+	}
+
 	private void setupMoon(GL2 gl) {
 		gl.glLightModelfv(2899, new float[] { 0.15F, 0.15F, 0.18F, 1.0F }, 0);
 	}
