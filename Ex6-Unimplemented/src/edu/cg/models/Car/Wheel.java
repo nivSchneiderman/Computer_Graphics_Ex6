@@ -48,4 +48,10 @@ public class Wheel implements IRenderable {
 		return "Wheel";
 	}
 
+	@Override
+	public void destroy(GL2 gl) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

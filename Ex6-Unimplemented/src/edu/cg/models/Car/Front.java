@@ -51,4 +51,10 @@ public class Front implements IRenderable {
 
 	}
 
+	@Override
+	public void destroy(GL2 gl) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

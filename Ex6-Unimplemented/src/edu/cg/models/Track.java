@@ -14,12 +14,20 @@ public class Track implements IRenderable {
 		currentTrackSegment = new TrackSegment(currentDifficulty);
 		nextTrackSegment = new TrackSegment(currentDifficulty + DIFFICULTY_DELTA);
 	}
-
+	
+	// start needs work - use constants
+	
 	@Override
 	public void render(GL2 gl) {
 		// TODO: Render the track by rendering the current and next segment.
+	    gl.glPushMatrix();
+	    currentTrackSegment.render(gl);
+	    gl.glTranslated(0.0D, 0.0D, -500.0D);
+	    nextTrackSegment.render(gl);
+	    gl.glPopMatrix();
 	}
-
+	
+	// end needs work
 	@Override
 	public void init(GL2 gl) {
 		// TODO: Initialize the track segments. We already did it for you.

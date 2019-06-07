@@ -20,4 +20,10 @@ public class Empty implements IRenderable {
 	public void init(GL2 gl) {
 
 	}
+
+	@Override
+	public void destroy(GL2 gl) {
+		// TODO Auto-generated method stub
+		
+	}
 }
