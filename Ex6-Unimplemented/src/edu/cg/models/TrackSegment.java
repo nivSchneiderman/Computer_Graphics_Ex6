@@ -84,7 +84,7 @@ public class TrackSegment implements IRenderable {
 		// TODO: Render the track segment
 		renderBoxes(gl);
 		renderAsphalt(gl);
-		// renderGrass(gl);
+		renderGrass(gl);
 	}
 
 	// start needs work
@@ -111,9 +111,20 @@ public class TrackSegment implements IRenderable {
 	}
 
 	private void renderAsphalt(GL2 gl) {
-		Materials.setAsphaltMaterial(gl);
 		gl.glPushMatrix();
+		Materials.setAsphaltMaterial(gl);
 		renderQuadraticTexture(gl, roadTexture, 20, 10, 6, 500);
+		gl.glPopMatrix();
+	}
+
+	private void renderGrass(GL2 gl) {
+		double dx = 15;
+		
+		gl.glPushMatrix();
+		gl.glTranslated(dx, 0.0D, 0.0D);
+		renderQuadraticTexture(gl, grassTexture, 10.0D, 10.0D, 2, 500.0D);
+		gl.glTranslated(-2.0D * dx, 0.0D, 0.0D);
+		renderQuadraticTexture(gl, grassTexture, 10.0D, 10.0D, 2, 500.0D);
 		gl.glPopMatrix();
 	}
 

@@ -114,8 +114,8 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupSun(GL2 gl, int light) {
 		float[] sunColor = { 1.0F, 1.0F, 1.0F, 1.0F };
-		float[] pos = {0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
-				-0.0F + carCameraTranslation.z, 1.0F };
+		float[] pos = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y, -0.0F + carCameraTranslation.z,
+				1.0F };
 		gl.glLightfv(light, 4610, sunColor, 0);
 		gl.glLightfv(light, 4609, sunColor, 0);
 		gl.glLightfv(light, 4611, pos, 0);

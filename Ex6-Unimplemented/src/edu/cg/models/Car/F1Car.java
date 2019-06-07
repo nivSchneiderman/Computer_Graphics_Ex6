@@ -12,7 +12,6 @@ public class F1Car implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-
 		Back back = new Back();
 		Center center = new Center();
 		Front front = new Front();
