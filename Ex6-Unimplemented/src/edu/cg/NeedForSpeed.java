@@ -70,19 +70,34 @@ public class NeedForSpeed implements GLEventListener {
 		renderTrack(gl);
 	}
 
+	// start needs work
+	
 	private void updateCarCameraTranslation(GL2 gl) {
 		// TODO: Update the car and camera translation values (not the
 		// ModelView-Matrix).
 		// - You should always keep track on the car offset relative to the starting
 		// point.
 		// - You should change the track segments here.
+	    Vec ret = gameState.getNextTranslation();
+	    carCameraTranslation = carCameraTranslation.add(ret);
+	    double dx = Math.max(carCameraTranslation.x, -7.0D);
+	    carCameraTranslation.x = ((float)Math.min(dx, 7.0D));
+	    if (Math.abs(carCameraTranslation.z) >= 510.0D) {
+	      carCameraTranslation.z = (-(float)(Math.abs(carCameraTranslation.z) % 500.0D));
+	      gameTrack.changeTrack(gl);
+	    }
 	}
 
 	private void setupCamera(GL2 gl) {
 		// TODO: Setup the camera.
+	    GLU glu = new GLU();
+	    glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z, 
+	      0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D, 0.7D, 
+	      -0.3D);
 	}
 
-
+	// end needs work
+	
 	private void setupLights(GL2 gl) {
 		if (isDayMode) {
 			// TODO Setup day lighting.
@@ -98,6 +113,9 @@ public class NeedForSpeed implements GLEventListener {
 	private void renderTrack(GL2 gl) {
 		// TODO: Render the track. 
 		//       * Note: the track shouldn't be translated. It should be fixed.
+	    gl.glPushMatrix();
+	    gameTrack.render(gl);
+	    gl.glPopMatrix();
 	}
 
 	private void renderCar(GL2 gl) {

@@ -104,7 +104,7 @@ public class TrackSegment implements IRenderable {
 		Materials.setWoodenBoxMaterial(gl);
 		for (Point p : boxesLocations) {
 			gl.glPushMatrix();
-			gl.glTranslated(p.x, p.y, p.z);
+			gl.glTranslated(p.x, 0, p.z);
 			box.render(gl);
 			gl.glPopMatrix();
 		}
@@ -113,7 +113,7 @@ public class TrackSegment implements IRenderable {
 	private void renderAsphalt(GL2 gl) {
 		Materials.setAsphaltMaterial(gl);
 		gl.glPushMatrix();
-		renderQuadraticTexture(gl, roadTexture, 20.0D, 10.0D, 6, 500.0D);
+		renderQuadraticTexture(gl, roadTexture, 20, 10, 6, 500);
 		gl.glPopMatrix();
 	}
 
