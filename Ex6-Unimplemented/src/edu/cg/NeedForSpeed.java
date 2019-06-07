@@ -73,27 +73,25 @@ public class NeedForSpeed implements GLEventListener {
 	// start needs work
 	
 	private void updateCarCameraTranslation(GL2 gl) {
-		// TODO: Update the car and camera translation values (not the
-		// ModelView-Matrix).
-		// - You should always keep track on the car offset relative to the starting
-		// point.
-		// - You should change the track segments here.
-	    Vec ret = gameState.getNextTranslation();
-	    carCameraTranslation = carCameraTranslation.add(ret);
-	    double dx = Math.max(carCameraTranslation.x, -7.0D);
-	    carCameraTranslation.x = ((float)Math.min(dx, 7.0D));
-	    if (Math.abs(carCameraTranslation.z) >= 510.0D) {
-	      carCameraTranslation.z = (-(float)(Math.abs(carCameraTranslation.z) % 500.0D));
-	      gameTrack.changeTrack(gl);
-	    }
-	}
+		
+		Vec translationVec = gameState.getNextTranslation();
+		    carCameraTranslation = carCameraTranslation.add(translationVec);
+		   //==================needs work ================
+		    double dx = Math.max(carCameraTranslation.x, -7.0D);
+		    carCameraTranslation.x = ((float)Math.min(dx, 7.0D));
+		    if (Math.abs(carCameraTranslation.z) >= 510.0D) {
+		      carCameraTranslation.z = (-(float)(Math.abs(carCameraTranslation.z) % 500.0D));
+		      gameTrack.changeTrack(gl);
+		    }
+		    //=======================end of needs work ==========
+	}      
 
 	private void setupCamera(GL2 gl) {
-		// TODO: Setup the camera.
-	    GLU glu = new GLU();
-	    glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z, 
-	      0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D, 0.7D, 
-	      -0.3D);
+		
+      GLU glu = new GLU();
+	  glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z, 
+		      0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D, 0.7D, 
+		      -0.3D);
 	}
 
 	// end needs work
@@ -102,7 +100,7 @@ public class NeedForSpeed implements GLEventListener {
 		if (isDayMode) {
 			// TODO Setup day lighting.
 			// * Remember: switch-off any light sources that were used in night mode
-		} else {
+		} else { 
 			// TODO Setup night lighting.
 			// * Remember: switch-off any light sources that are used in day mode
 			// * Remember: spotlight sources also move with the camera.
@@ -119,8 +117,24 @@ public class NeedForSpeed implements GLEventListener {
 	}
 
 	private void renderCar(GL2 gl) {
-		// TODO: Render the car.
-		//       * Remember: the car position should be the initial position + the accumulated translation. 
+		
+		double carDirection = gameState.getCarRotation();
+	    gl.glPushMatrix();
+	    
+	    //============need to understand the origin of these numbers ========
+	    //xdelta is zero hence redundant 
+	    double yDelta = 0.15;
+	    double zDelta = -6.6;
+	    //====================================
+	    
+	    gl.glTranslated(carCameraTranslation.x,yDelta + carCameraTranslation.y,zDelta+carCameraTranslation.z);
+	    gl.glScaled(4,4,4);//scale the car uniformly
+	    gl.glRotated(90, 0, 0.5, 0); //turn the car towards the track
+	 	    
+	    //up date the turn of the car to the correct direction
+	    gl.glRotated(-carDirection, 0, 1, 0);
+	    car.render(gl);
+	    gl.glPopMatrix(); 
 	}
 
 	public GameState getGameState() {
@@ -150,7 +164,6 @@ public class NeedForSpeed implements GLEventListener {
 		//		 Remember to change OpenGL mode as it was before.
 		gl.glCullFace(GL2.GL_BACK);
 		gl.glEnable(GL2.GL_CULL_FACE);
-
 		gl.glEnable(GL2.GL_NORMALIZE);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glEnable(GL2.GL_LIGHTING);
@@ -165,6 +178,11 @@ public class NeedForSpeed implements GLEventListener {
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// TODO Setup the projection matrix here.
 		//		- It is recommended to use gluPerspective - with fovy 57.0
+	    GL2 gl = drawable.getGL().getGL2();
+	    GLU glu = new GLU();
+	    gl.glMatrixMode(GL2.GL_PROJECTION);
+	    gl.glLoadIdentity();
+	    glu.gluPerspective(57.0, (double)width / height, 1, 600);//last values are clipping params 
 	}
 
 	/**
