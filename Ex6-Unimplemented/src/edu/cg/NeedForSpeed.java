@@ -47,16 +47,19 @@ public class NeedForSpeed implements GLEventListener {
 			initModel(gl);
 		}
 		if (isDayMode) {
-			// TODO: Setup background color when day mode is on (You can choose differnt color)
+			// TODO: Setup background color when day mode is on (You can choose differnt
+			// color)
 			gl.glClearColor(0.52f, 0.824f, 1.0f, 1.0f);
 		} else {
-			// TODO: Setup background color when night mode is on (You can choose differnt color)
+			// TODO: Setup background color when night mode is on (You can choose differnt
+			// color)
 			gl.glClearColor(0.0f, 0.0f, 0.32f, 1.0f);
 		}
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		// TODO: This is the flow in which we render the scene. You can use different flow.
+		// TODO: This is the flow in which we render the scene. You can use different
+		// flow.
 		// Step (1) You should update the accumulated translation that needs to be
 		// applied on the car, camera and light sources.
 		updateCarCameraTranslation(gl);
@@ -71,70 +74,97 @@ public class NeedForSpeed implements GLEventListener {
 	}
 
 	// start needs work
-	
+
 	private void updateCarCameraTranslation(GL2 gl) {
-		
+
 		Vec translationVec = gameState.getNextTranslation();
-		    carCameraTranslation = carCameraTranslation.add(translationVec);
-		   //==================needs work ================
-		    double dx = Math.max(carCameraTranslation.x, -7.0D);
-		    carCameraTranslation.x = ((float)Math.min(dx, 7.0D));
-		    if (Math.abs(carCameraTranslation.z) >= 510.0D) {
-		      carCameraTranslation.z = (-(float)(Math.abs(carCameraTranslation.z) % 500.0D));
-		      gameTrack.changeTrack(gl);
-		    }
-		    //=======================end of needs work ==========
-	}      
+		carCameraTranslation = carCameraTranslation.add(translationVec);
+		// ==================needs work ================
+		double dx = Math.max(carCameraTranslation.x, -7.0D);
+		carCameraTranslation.x = ((float) Math.min(dx, 7.0D));
+		if (Math.abs(carCameraTranslation.z) >= 510.0D) {
+			carCameraTranslation.z = (-(float) (Math.abs(carCameraTranslation.z) % 500.0D));
+			gameTrack.changeTrack(gl);
+		}
+		// =======================end of needs work ==========
+	}
 
 	private void setupCamera(GL2 gl) {
-		
-      GLU glu = new GLU();
-	  glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z, 
-		      0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D, 0.7D, 
-		      -0.3D);
+
+		GLU glu = new GLU();
+		glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z,
+				0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D,
+				0.7D, -0.3D);
+	}
+
+	private void setupLights(GL2 gl) {
+		if (isDayMode) {
+
+			gl.glDisable(16385);
+			// setupSun(gl, 16384);
+
+		} else {
+			setupMoon(gl);
+			float[] pos1 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
+					-0.0F + carCameraTranslation.z, 1.0F };
+			setupSpotlight(gl, 16384, pos1);
+			float[] pos2 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
+					-15.0F + carCameraTranslation.z, 1.0F };
+			setupSpotlight(gl, 16385, pos2);
+		}
+	}
+
+	/*
+	 * private void setupSun(GL2 gl, int light) { float[] sunColor = { 1.0F, 1.0F,
+	 * 1.0F, 1.0F }; Vec dir = new Vec(0.0D, 1.0D, 1.0D).normalize(); float[] pos =
+	 * { x, y, z, 0.0F }; gl.glLightfv(light, 4610, sunColor, 0);
+	 * gl.glLightfv(light, 4609, sunColor, 0); gl.glLightfv(light, 4611, pos, 0);
+	 * gl.glLightfv(light, 4608, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
+	 * gl.glEnable(light); }
+	 */
+	private void setupMoon(GL2 gl) {
+		gl.glLightModelfv(2899, new float[] { 0.15F, 0.15F, 0.18F, 1.0F }, 0);
+	}
+
+	private void setupSpotlight(GL2 gl, int light, float[] pos) {
+		float[] sunColor = { 0.85F, 0.85F, 0.85F, 1.0F };
+		gl.glLightfv(light, 4611, pos, 0);
+		gl.glLightf(light, 4614, 75.0F);
+		gl.glLightfv(light, 4612, new float[] { 0.0F, -1.0F, 0.0F }, 0);
+		gl.glLightfv(light, 4610, sunColor, 0);
+		gl.glLightfv(light, 4609, sunColor, 0);
+		gl.glEnable(light);
 	}
 
 	// end needs work
-	
-	private void setupLights(GL2 gl) {
-		if (isDayMode) {
-			// TODO Setup day lighting.
-			// * Remember: switch-off any light sources that were used in night mode
-		} else { 
-			// TODO Setup night lighting.
-			// * Remember: switch-off any light sources that are used in day mode
-			// * Remember: spotlight sources also move with the camera.
-		}
-
-	}
 
 	private void renderTrack(GL2 gl) {
-		// TODO: Render the track. 
-		//       * Note: the track shouldn't be translated. It should be fixed.
-	    gl.glPushMatrix();
-	    gameTrack.render(gl);
-	    gl.glPopMatrix();
+		// TODO: Render the track.
+		// * Note: the track shouldn't be translated. It should be fixed.
+		gl.glPushMatrix();
+		gameTrack.render(gl);
+		gl.glPopMatrix();
 	}
 
 	private void renderCar(GL2 gl) {
-		
+
 		double carDirection = gameState.getCarRotation();
-	    gl.glPushMatrix();
-	    
-	    //============need to understand the origin of these numbers ========
-	    //xdelta is zero hence redundant 
-	    double yDelta = 0.15;
-	    double zDelta = -6.6;
-	    //====================================
-	    
-	    gl.glTranslated(carCameraTranslation.x,yDelta + carCameraTranslation.y,zDelta+carCameraTranslation.z);
-	    gl.glScaled(4,4,4);//scale the car uniformly
-	    gl.glRotated(90, 0, 0.5, 0); //turn the car towards the track
-	 	    
-	    //up date the turn of the car to the correct direction
-	    gl.glRotated(-carDirection, 0, 1, 0);
-	    car.render(gl);
-	    gl.glPopMatrix(); 
+		gl.glPushMatrix();
+
+		// ============need to understand the origin of these numbers ========
+		// xdelta is zero hence redundant
+		double yDelta = 0.15;
+		double zDelta = -6.6;
+		// ====================================
+
+		gl.glTranslated(carCameraTranslation.x, yDelta + carCameraTranslation.y, zDelta + carCameraTranslation.z);
+		gl.glScaled(4, 4, 4);// scale the car uniformly
+		gl.glRotated(90, 0, 0.5, 0); // turn the car towards the track
+
+		// up date the turn of the car to the correct direction
+		gl.glRotated(-carDirection, 0, 1, 0);
+		car.render(gl);
+		gl.glPopMatrix();
 	}
 
 	public GameState getGameState() {
@@ -161,7 +191,7 @@ public class NeedForSpeed implements GLEventListener {
 
 	public void initModel(GL2 gl) {
 		// TODO: You can change OpenGL modes during implementation for debug purposes.
-		//		 Remember to change OpenGL mode as it was before.
+		// Remember to change OpenGL mode as it was before.
 		gl.glCullFace(GL2.GL_BACK);
 		gl.glEnable(GL2.GL_CULL_FACE);
 		gl.glEnable(GL2.GL_NORMALIZE);
@@ -177,12 +207,12 @@ public class NeedForSpeed implements GLEventListener {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// TODO Setup the projection matrix here.
-		//		- It is recommended to use gluPerspective - with fovy 57.0
-	    GL2 gl = drawable.getGL().getGL2();
-	    GLU glu = new GLU();
-	    gl.glMatrixMode(GL2.GL_PROJECTION);
-	    gl.glLoadIdentity();
-	    glu.gluPerspective(57.0, (double)width / height, 1, 600);//last values are clipping params 
+		// - It is recommended to use gluPerspective - with fovy 57.0
+		GL2 gl = drawable.getGL().getGL2();
+		GLU glu = new GLU();
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		glu.gluPerspective(57.0, (double) width / height, 1, 600);// last values are clipping params
 	}
 
 	/**
