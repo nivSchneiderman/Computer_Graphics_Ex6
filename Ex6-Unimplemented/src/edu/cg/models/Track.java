@@ -22,7 +22,7 @@ public class Track implements IRenderable {
 		// TODO: Render the track by rendering the current and next segment.
 	    gl.glPushMatrix();
 	    currentTrackSegment.render(gl);
-	    gl.glTranslated(0.0D, 0.0D, -500.0D);
+	    gl.glTranslated(0, 0, -500);
 	    nextTrackSegment.render(gl);
 	    gl.glPopMatrix();
 	}

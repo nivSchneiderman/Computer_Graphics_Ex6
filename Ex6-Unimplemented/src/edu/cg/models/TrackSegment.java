@@ -87,18 +87,18 @@ public class TrackSegment implements IRenderable {
 		// renderGrass(gl);
 	}
 
+	// start needs work
+
 	@Override
 	public void init(GL2 gl) {
-		// TODO: Initialize textures.
+		box.init(gl);
+		try {
+			roadTexture = TextureIO.newTexture(new File("Textures/RoadTexture.jpg"), true);
+			grassTexture = TextureIO.newTexture(new File("Textures/GrassTexture.jpg"), true);
+		} catch (Exception e) {
+			System.err.print("Unable to read texture : " + e.getMessage());
+		}
 	}
-
-	public void destroy(GL2 gl) {
-		roadTexture.destroy(gl);
-		grassTexture.destroy(gl);
-		box.destroy(gl);
-	}
-
-	// start needs work
 
 	private void renderBoxes(GL2 gl) {
 		Materials.setWoodenBoxMaterial(gl);
@@ -153,4 +153,10 @@ public class TrackSegment implements IRenderable {
 	}
 
 	// end needs work
+
+	public void destroy(GL2 gl) {
+		roadTexture.destroy(gl);
+		grassTexture.destroy(gl);
+		box.destroy(gl);
+	}
 }
