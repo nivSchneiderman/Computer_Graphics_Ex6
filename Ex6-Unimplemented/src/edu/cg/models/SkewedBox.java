@@ -41,7 +41,7 @@ public class SkewedBox implements IRenderable {
 	public void render(GL2 gl) {
         
 		//front sqaure 
-		gl.glNormal3d(1, 0, 0);
+		gl.glNormal3d(1, 0, 0);//added normals for lighting 
 		gl.glBegin(gl.GL_QUADS);  
         gl.glVertex3d(length / 2, 0,  depth2 / 2);
         gl.glVertex3d(length / 2, 0, -depth2 / 2);
