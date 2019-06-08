@@ -91,19 +91,16 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupCamera(GL2 gl) {
 
-	GLU glu = new GLU();
-	glu.gluLookAt( //=================needs understanding ===============
-		0.0D + carCameraTranslation.x,
-		1.8D + carCameraTranslation.y,
-		2.0D + carCameraTranslation.z,
-		0.0D + carCameraTranslation.x,
-		1.5D + carCameraTranslation.y,
-	   -5.0D + carCameraTranslation.z,
-		0.0D, 0.7D , -0.3D);
+		GLU glu = new GLU();
+		glu.gluLookAt( // =================needs understanding ===============
+				0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z,
+				0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D,
+				0.7D, -0.3D);
 	}
 
 	private void setupLights(GL2 gl) {
 		if (isDayMode) {
+			gl.glDisable(16384);
 			gl.glDisable(16385);
 			setupSun(gl, 16384);
 		} else {
@@ -119,8 +116,8 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupSun(GL2 gl, int light) {
 		float[] sunColor = { 1.0F, 1.0F, 1.0F, 1.0F };
-		float[] pos = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y, -0.0F + carCameraTranslation.z,
-				1.0F };
+		float[] pos = { 0.0F + carCameraTranslation.x, 60.0F + carCameraTranslation.y,
+				-0.0F + carCameraTranslation.z, 1.0F };
 		gl.glLightfv(light, 4610, sunColor, 0);
 		gl.glLightfv(light, 4609, sunColor, 0);
 		gl.glLightfv(light, 4611, pos, 0);
