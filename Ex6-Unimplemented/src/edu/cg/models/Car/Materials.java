@@ -14,28 +14,63 @@ public class Materials {
 	}
 
 	public static void SetBlackMetalMaterial(GL2 gl) {
-		SetMetalMaterial(gl, BLACK);
+		float[] mat_ambient = { 0.0F, 0.0F, 0.0F, 1.0F };
+	    float[] mat_diffuse = { 0.01F, 0.01F, 0.01F, 1.0F };
+	    float[] mat_specular = { 0.5F, 0.5F, 0.5F, 1.0F };
+	    float shine = 32.0F;
+	    gl.glMaterialf(1028, 5633, shine);
+	    gl.glMaterialfv(1028, 4608, mat_ambient, 0);
+	    gl.glMaterialfv(1028, 4609, mat_diffuse, 0);
+	    gl.glMaterialfv(1028, 4610, mat_specular, 0);
 	}
 
 	public static void SetRedMetalMaterial(GL2 gl) {
-		SetMetalMaterial(gl, RED);
+		 float[] mat_ambient = { 0.1745F, 0.01175F, 0.01175F, 1.0F };
+		 float[] mat_diffuse = { 0.61424F, 0.04136F, 0.04136F, 1.0F };
+		 float[] mat_specular = { 0.727811F, 0.626959F, 0.626959F, 1.0F };
+		 float shine = 76.8F;
+		 gl.glMaterialf(1028, 5633, shine);
+		 gl.glMaterialfv(1028, 4608, mat_ambient, 0);
+		 gl.glMaterialfv(1028, 4609, mat_diffuse, 0);
+		 gl.glMaterialfv(1028, 4610, mat_specular, 0);
 	}
 
 	public static void SetDarkRedMetalMaterial(GL2 gl) {
-		SetMetalMaterial(gl, DARK_RED);
+		  float[] mat_ambient = { 0.0F, 0.0F, 0.0F, 1.0F };
+		    float[] mat_diffuse = { 0.4F, 0.0F, 0.0F, 1.0F };
+		    float[] mat_specular = { 0.4F, 0.3F, 0.3F, 1.0F };
+		    float shine = 32.0F;
+		    gl.glMaterialf(1028, 5633, shine);
+		    gl.glMaterialfv(1028, 4608, mat_ambient, 0);
+		    gl.glMaterialfv(1028, 4609, mat_diffuse, 0);
+		    gl.glMaterialfv(1028, 4610, mat_specular, 0);
 	}
 
 	public static void SetDarkGreyMetalMaterial(GL2 gl) {
-		SetMetalMaterial(gl, DARK_GRAY);
+		 float[] mat_ambient = { 0.25F, 0.25F, 0.25F, 1.0F };
+		    float[] mat_diffuse = { 0.4F, 0.4F, 0.4F, 1.0F };
+		    float[] mat_specular = { 0.774597F, 0.774597F, 0.774597F, 1.0F };
+		    float shine = 76.8F;
+		    gl.glMaterialf(1028, 5633, shine);
+		    gl.glMaterialfv(1028, 4608, mat_ambient, 0);
+		    gl.glMaterialfv(1028, 4609, mat_diffuse, 0);
+		    gl.glMaterialfv(1028, 4610, mat_specular, 0);
 	}
 
 	public static void setMaterialTire(GL2 gl) {
-		float col[] = { .05f, .05f, .05f };
-		gl.glColor3fv(col, 0);
+		 float[] col = { 0.05F, 0.05F, 0.05F };
+		    gl.glColor3fv(col, 0);
+		    gl.glMaterialf(1028, 5633, 100.0F);
+		    gl.glMaterialfv(1028, 4609, col, 0);
+		    gl.glMaterialfv(1028, 4610, col, 0);
 	}
 
 	public static void setMaterialRims(GL2 gl) {
-		gl.glColor3fv(DARK_GRAY, 0);
+		  float[] col = { 0.8F, 0.8F, 0.8F };
+		    gl.glColor3fv(DARK_GRAY, 0);
+		    gl.glMaterialf(1028, 5633, 20.0F);
+		    gl.glMaterialfv(1028, 4609, DARK_GRAY, 0);
+		    gl.glMaterialfv(1028, 4610, col, 0);
 	}
 
 	// start needs work

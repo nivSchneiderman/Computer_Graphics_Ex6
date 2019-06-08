@@ -91,10 +91,15 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupCamera(GL2 gl) {
 
-		GLU glu = new GLU();
-		glu.gluLookAt(0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z,
-				0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D,
-				0.7D, -0.3D);
+	GLU glu = new GLU();
+	glu.gluLookAt( //=================needs understanding ===============
+		0.0D + carCameraTranslation.x,
+		1.8D + carCameraTranslation.y,
+		2.0D + carCameraTranslation.z,
+		0.0D + carCameraTranslation.x,
+		1.5D + carCameraTranslation.y,
+	   -5.0D + carCameraTranslation.z,
+		0.0D, 0.7D , -0.3D);
 	}
 
 	private void setupLights(GL2 gl) {
@@ -137,8 +142,6 @@ public class NeedForSpeed implements GLEventListener {
 		gl.glEnable(light);
 	}
 
-	// end needs work
-
 	private void renderTrack(GL2 gl) {
 		// TODO: Render the track.
 		// * Note: the track shouldn't be translated. It should be fixed.
@@ -149,9 +152,8 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void renderCar(GL2 gl) {
 
-		double carDirection = gameState.getCarRotation();
 		gl.glPushMatrix();
-
+		double carDirection = gameState.getCarRotation();
 		// ============need to understand the origin of these numbers ========
 		// xdelta is zero hence redundant
 		double yDelta = 0.15;
