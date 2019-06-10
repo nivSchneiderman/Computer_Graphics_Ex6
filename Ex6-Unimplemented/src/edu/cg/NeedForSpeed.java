@@ -100,42 +100,41 @@ public class NeedForSpeed implements GLEventListener {
 
 	private void setupLights(GL2 gl) {
 		if (isDayMode) {
-			gl.glDisable(16384);
-			gl.glDisable(16385);
-			setupSun(gl, 16384);
+			gl.glDisable(GL2.GL_LIGHT1);
+			initSun(gl, GL2.GL_LIGHT0);
 		} else {
-			setupMoon(gl);
+			initMoon(gl);
 			float[] pos1 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
 					-0.0F + carCameraTranslation.z, 1.0F };
-			setupSpotlight(gl, 16384, pos1);
+			setupSpotlight(gl, GL2.GL_LIGHT0, pos1);
 			float[] pos2 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
 					-15.0F + carCameraTranslation.z, 1.0F };
-			setupSpotlight(gl, 16385, pos2);
+			setupSpotlight(gl, GL2.GL_LIGHT1, pos2);
 		}
 	}
 
-	private void setupSun(GL2 gl, int light) {
+	private void initSun(GL2 gl, int light) {
 		float[] sunColor = { 1.0F, 1.0F, 1.0F, 1.0F };
 		float[] pos = { 0.0F + carCameraTranslation.x, 60.0F + carCameraTranslation.y,
 				-0.0F + carCameraTranslation.z, 1.0F };
-		gl.glLightfv(light, 4610, sunColor, 0);
-		gl.glLightfv(light, 4609, sunColor, 0);
-		gl.glLightfv(light, 4611, pos, 0);
-		gl.glLightfv(light, 4608, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
+		gl.glLightfv(light, GL2.GL_SPECULAR, sunColor, 0);
+		gl.glLightfv(light, GL2.GL_DIFFUSE, sunColor, 0);
+		gl.glLightfv(light, GL2.GL_POSITION, pos, 0);
+		gl.glLightfv(light, GL2.GL_AMBIENT, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
 		gl.glEnable(light);
 	}
 
-	private void setupMoon(GL2 gl) {
-		gl.glLightModelfv(2899, new float[] { 0.15F, 0.15F, 0.18F, 1.0F }, 0);
+	private void initMoon(GL2 gl) {
+		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[] { 0.15F, 0.15F, 0.18F, 1.0F }, 0);
 	}
 
 	private void setupSpotlight(GL2 gl, int light, float[] pos) {
 		float[] sunColor = { 0.85F, 0.85F, 0.85F, 1.0F };
-		gl.glLightfv(light, 4611, pos, 0);
-		gl.glLightf(light, 4614, 75.0F);
-		gl.glLightfv(light, 4612, new float[] { 0.0F, -1.0F, 0.0F }, 0);
-		gl.glLightfv(light, 4610, sunColor, 0);
-		gl.glLightfv(light, 4609, sunColor, 0);
+		gl.glLightfv(light, GL2.GL_POSITION, pos, 0);
+		gl.glLightf(light, GL2.GL_SPOT_CUTOFF, 75.0F);
+		gl.glLightfv(light, GL2.GL_SPOT_DIRECTION, new float[] { 0.0F, -1.0F, 0.0F }, 0);
+		gl.glLightfv(light, GL2.GL_SPECULAR, sunColor, 0);
+		gl.glLightfv(light, GL2.GL_DIFFUSE, sunColor, 0);
 		gl.glEnable(light);
 	}
 
@@ -151,11 +150,9 @@ public class NeedForSpeed implements GLEventListener {
 
 		gl.glPushMatrix();
 		double carDirection = gameState.getCarRotation();
-		// ============need to understand the origin of these numbers ========
 		// xdelta is zero hence redundant
 		double yDelta = 0.15;
 		double zDelta = -6.6;
-		// ====================================
 
 		gl.glTranslated(carCameraTranslation.x, yDelta + carCameraTranslation.y, zDelta + carCameraTranslation.z);
 		gl.glScaled(4, 4, 4);// scale the car uniformly
@@ -173,7 +170,9 @@ public class NeedForSpeed implements GLEventListener {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		// TODO: Destroy all models.
+        GL2 gl = drawable.getGL().getGL2();
+		this.car.destroy(gl);
+		this.gameTrack.destroy(gl);
 	}
 
 	@Override
