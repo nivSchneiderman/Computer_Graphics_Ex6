@@ -113,7 +113,7 @@ public class TrackSegment implements IRenderable {
 	private void renderAsphalt(GL2 gl) {
 		gl.glPushMatrix();
 		Materials.setAsphaltMaterial(gl);
-		renderQuadraticTexture(gl, roadTexture, 20, 10, 6, 500);
+		renderTexture(gl, roadTexture, 20, 10, 6, 500);
 		gl.glPopMatrix();
 	}
 
@@ -122,31 +122,29 @@ public class TrackSegment implements IRenderable {
 		
 		gl.glPushMatrix();
 		gl.glTranslated(dx, 0, 0);
-		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
+		renderTexture(gl, grassTexture, 10, 10, 2, 500);
 		gl.glTranslated(-2*dx, 0, 0);
-		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
+		renderTexture(gl, grassTexture, 10, 10, 2, 500);
 		gl.glPopMatrix();
 	}
 
-	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split,double totalDepth) {
-		
-		//=============================enum========================
-		gl.glEnable(3553);
+	private void renderTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split,double totalDepth) {
+		gl.glEnable(GL2.GL_TEXTURE_2D);
 		tex.bind(gl);
-
-		gl.glTexEnvi(8960, 8704, 8448);
-		gl.glTexParameteri(3553, 10241, 9987);
-		gl.glTexParameteri(3553, 10240, 9729);
-		gl.glTexParameteri(3553, 33083, 1);
-
+		gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_COLOR, GL2.GL_RGB);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10241, 9987);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10240, 9729);
+		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 33083, 1);
 		gl.glColor3d(1.0D, 0.0D, 0.0D);
 		GLU glu = new GLU();
 		GLUquadric quad = glu.gluNewQuadric();
+		
 		gl.glColor3d(1.0D, 0.0D, 0.0D);
 		gl.glNormal3d(0.0D, 1.0D, 0.0D);
 		double d = 1.0D / split;
 		double dz = quadDepth / split;
 		double dx = quadWidth / split;
+		
 		for (double tz = 0.0D; tz < totalDepth; tz += quadDepth) {
 			for (double i = 0.0D; i < split; i += 1.0D) {
 				gl.glBegin(5);
@@ -160,11 +158,10 @@ public class TrackSegment implements IRenderable {
 				gl.glEnd();
 			}
 		}
+		
 		glu.gluDeleteQuadric(quad);
 		gl.glDisable(3553);
 	}
-
-	// ================================== end ====================================
 
 	public void destroy(GL2 gl) {
 		roadTexture.destroy(gl);
