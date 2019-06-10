@@ -48,91 +48,111 @@ public class SkewedBox implements IRenderable {
 		height2 = length;
 		this.usingTexture = usingTexture;
 	}
-	// start needs work
 	
 	public void render(GL2 gl) {
-		Vec normal;
+		
 		if (usingTexture) {
 			assert ((textureBox != null) && (gl != null));
 			initTextureParams(gl);
 		}
 
-		gl.glNormal3d(1.0D, 0.0D, 0.0D);
-	    gl.glBegin(7);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, depth2 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, -depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, height2, -depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(length / 2.0D, height2, depth2 / 2.0D);
-	    
-	    gl.glNormal3d(-1.0D, 0.0D, 0.0D);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, -depth1 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, depth1 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, depth1 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, -depth1 / 2.0D);
-	    
-	    normal = new Vec(height1 - height2, 1.0D, 0.0D).normalize();
-	    gl.glNormal3d(normal.x, normal.y, normal.z);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, depth1 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, height2, depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, height2, -depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, -depth1 / 2.0D);
-	    
-	    gl.glNormal3d(0.0D, -1.0D, 0.0D);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, depth1 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, -depth1 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, -depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, depth2 / 2.0D);
-	    
-	    normal = new Vec(depth1 - depth2, 0.0D, 1.0D).normalize();
-	    gl.glNormal3d(normal.x, normal.y, normal.z);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, depth1 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, depth1 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(length / 2.0D, height2, depth2 / 2.0D);
-	    
-	    normal = new Vec(depth1 - depth2, 0.0D, -1.0D).normalize();
-	    gl.glNormal3d(normal.x, normal.y, normal.z);
-	    gl.glTexCoord2d(0.0D, 0.0D);
-	    gl.glVertex3d(-length / 2.0D, 0.0D, -depth1 / 2.0D);
-	    gl.glTexCoord2d(0.0D, 1.0D);
-	    gl.glVertex3d(-length / 2.0D, height1, -depth1 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 1.0D);
-	    gl.glVertex3d(length / 2.0D, height2, -depth2 / 2.0D);
-	    gl.glTexCoord2d(1.0D, 0.0D);
-	    gl.glVertex3d(length / 2.0D, 0.0D, -depth2 / 2.0D);
+		//front sqaure 
+		gl.glNormal3d(1, 0, 0);
+		gl.glBegin(gl.GL_QUADS);
+		gl.glTexCoord2d(0,0);
+		gl.glVertex3d(length / 2, 0,  depth2 / 2);
+		gl.glTexCoord2d(0,1);
+		gl.glVertex3d(length / 2, 0, -depth2 / 2);
+		gl.glTexCoord2d(1,1);
+		gl.glVertex3d(length / 2, height2, -depth2 / 2);
+		gl.glTexCoord2d(1,0);
+		gl.glVertex3d(length / 2, height2,  depth2 / 2);
+		gl.glEnd();
+		
+		 //back box
+		gl.glNormal3d(-1, 0, 0);
+        gl.glBegin(gl.GL_QUADS);
+        gl.glTexCoord2d(0,0);
+        gl.glVertex3d(-length / 2,    0   , -depth1/2);
+        gl.glTexCoord2d(0,1);
+        gl.glVertex3d(-length / 2,    0   ,  depth1/2);
+        gl.glTexCoord2d(1,1);
+        gl.glVertex3d(-length / 2, height1,  depth1/2);
+        gl.glTexCoord2d(1,0);
+        gl.glVertex3d(-length / 2, height1, -depth1/2);
+        gl.glEnd();
+		
+        Vec normalToSurface = new Vec(height1 - height2, 1, 0).normalize();
+
+	    //upper box
+	    gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
+	    gl.glBegin(gl.GL_QUADS);
+	    gl.glTexCoord2d(0,0);
+	    gl.glVertex3d(-length / 2, height1, depth1 / 2);
+	    gl.glTexCoord2d(0, 1);
+	    gl.glVertex3d( length / 2, height2, depth2 / 2);
+	    gl.glTexCoord2d(1, 1);
+	    gl.glVertex3d( length / 2, height2, -depth2 / 2);
+	    gl.glTexCoord2d(1, 0);
+	    gl.glVertex3d(-length / 2, height1, -depth1 / 2);
 	    gl.glEnd();
 	    
-	    gl.glDisable(3553);
+	    //lower box
+	    gl.glBegin(gl.GL_QUADS);
+	    gl.glNormal3d(0,-1, 0);
+	    gl.glTexCoord2d(0,0);
+	    gl.glVertex3d(-length / 2, 0,  depth1 / 2);
+	    gl.glTexCoord2d(0,1);
+	    gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+	    gl.glTexCoord2d(1,1);
+	    gl.glVertex3d(length /  2, 0, -depth2 / 2);
+	    gl.glTexCoord2d(1,0);
+	    gl.glVertex3d(length / 2,  0,  depth2 / 2);
+	    gl.glEnd();
+	    
+	    normalToSurface = new Vec(depth1 - depth2, 0, 1).normalize();
+	    
+	    //right box 
+	    gl.glBegin(gl.GL_QUADS);
+	    gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
+	    gl.glTexCoord2d(0, 0);
+	    gl.glVertex3d(-length / 2, height1, depth1 / 2);
+	    gl.glTexCoord2d(0,1);
+	    gl.glVertex3d(-length / 2, 0, depth1 / 2);
+	    gl.glTexCoord2d(1,1);
+	    gl.glVertex3d( length / 2, 0, depth2 / 2);
+	    gl.glTexCoord2d(1,0);
+	    gl.glVertex3d( length / 2, height2, depth2 / 2);
+	    gl.glEnd();
+	    
+	    
+	    normalToSurface.z = -1;
+	    gl.glBegin(gl.GL_QUADS);
+	    gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
+	    gl.glTexCoord2d(0,0);
+	    gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+	    gl.glTexCoord2d(0,1);
+	    gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+	    gl.glTexCoord2d(1,1);
+	    gl.glVertex3d(length / 2, height2, -depth2 / 2);
+	    gl.glTexCoord2d(1,0);
+	    gl.glVertex3d(length / 2, 0, -depth2 / 2);
+	    gl.glEnd();	    
+	  
 	}
 
+//==================== enum ==========================
+
 	private void initTextureParams(GL2 gl) {
+		
 		gl.glEnable(3553);
 		textureBox.bind(gl);
-
 		gl.glTexEnvi(8960, 8704, 8448);
 		gl.glTexParameteri(3553, 10241, 9987);
 		gl.glTexParameteri(3553, 10240, 9729);
 		gl.glTexParameteri(3553, 33083, 1);
+		
+//=====================    end ========================= 		
 	}
 
 	@Override
@@ -146,8 +166,7 @@ public class SkewedBox implements IRenderable {
 		}
 	}
 	
-	// end needs work
-	
+		
 	@Override
 	public String toString() {
 		return "SkewedBox";
