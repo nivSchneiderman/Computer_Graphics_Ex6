@@ -118,18 +118,19 @@ public class TrackSegment implements IRenderable {
 	}
 
 	private void renderGrass(GL2 gl) {
-		double dx = 15;
+		int dx = 15;
 		
 		gl.glPushMatrix();
-		gl.glTranslated(dx, 0.0D, 0.0D);
-		renderQuadraticTexture(gl, grassTexture, 10.0D, 10.0D, 2, 500.0D);
-		gl.glTranslated(-2.0D * dx, 0.0D, 0.0D);
-		renderQuadraticTexture(gl, grassTexture, 10.0D, 10.0D, 2, 500.0D);
+		gl.glTranslated(dx, 0, 0);
+		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
+		gl.glTranslated(-2*dx, 0, 0);
+		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
 		gl.glPopMatrix();
 	}
 
-	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split,
-			double totalDepth) {
+	private void renderQuadraticTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split,double totalDepth) {
+		
+		//=============================enum========================
 		gl.glEnable(3553);
 		tex.bind(gl);
 
@@ -163,7 +164,7 @@ public class TrackSegment implements IRenderable {
 		gl.glDisable(3553);
 	}
 
-	// end needs work
+	// ================================== end ====================================
 
 	public void destroy(GL2 gl) {
 		roadTexture.destroy(gl);
