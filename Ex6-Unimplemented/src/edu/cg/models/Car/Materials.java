@@ -9,9 +9,6 @@ public class Materials {
 	private static final float RED[] = { 0.7f, 0f, 0f };
 	private static final float BLACK[] = { 0.05f, 0.05f, 0.05f };
 
-	public static void SetMetalMaterial(GL2 gl, float[] color) {
-		gl.glColor3fv(color, 0);
-	}
 
 	public static void SetBlackMetalMaterial(GL2 gl) {
 		float[] mat_ambient = { 0.0F, 0.0F, 0.0F, 1.0F };
