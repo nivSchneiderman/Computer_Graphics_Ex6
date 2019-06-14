@@ -10,9 +10,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import edu.cg.algebra.Vec;
 import edu.cg.models.Track;
-import edu.cg.models.TrackSegment;
 import edu.cg.models.Car.F1Car;
-import edu.cg.models.Car.Specification;
 
 /**
  * An OpenGL 3D Game.
@@ -73,66 +71,62 @@ public class NeedForSpeed implements GLEventListener {
 		renderTrack(gl);
 	}
 
-	// start needs work
-
 	private void updateCarCameraTranslation(GL2 gl) {
-
 		Vec translationVec = gameState.getNextTranslation();
 		carCameraTranslation = carCameraTranslation.add(translationVec);
-		// ==================needs work ================
-		double dx = Math.max(carCameraTranslation.x, -7.0D);
-		carCameraTranslation.x = ((float) Math.min(dx, 7.0D));
-		if (Math.abs(carCameraTranslation.z) >= 510.0D) {
-			carCameraTranslation.z = (-(float) (Math.abs(carCameraTranslation.z) % 500.0D));
+		double dx = Math.max(carCameraTranslation.x, -7);
+		carCameraTranslation.x = ((float)Math.min(dx, 7));
+		
+		if (Math.abs(carCameraTranslation.z) >= 510) {
+			carCameraTranslation.z = (-(float)(Math.abs(carCameraTranslation.z) % 500));
 			gameTrack.changeTrack(gl);
 		}
-		// =======================end of needs work ==========
 	}
 
 	private void setupCamera(GL2 gl) {
 
 		GLU glu = new GLU();
-		glu.gluLookAt( // =================needs understanding ===============
-				0.0D + carCameraTranslation.x, 1.8D + carCameraTranslation.y, 2.0D + carCameraTranslation.z,
-				0.0D + carCameraTranslation.x, 1.5D + carCameraTranslation.y, -5.0D + carCameraTranslation.z, 0.0D,
-				0.7D, -0.3D);
+		glu.gluLookAt(
+				carCameraTranslation.x, 1.8 + carCameraTranslation.y, 2 + carCameraTranslation.z,
+				carCameraTranslation.x, 1.5 + carCameraTranslation.y, -5 + carCameraTranslation.z, 0,
+				0.7, -0.3);
 	}
 
 	private void setupLights(GL2 gl) {
 		if (isDayMode) {
 			gl.glDisable(GL2.GL_LIGHT1);
-			initSun(gl, GL2.GL_LIGHT0);
+			setupSun(gl, GL2.GL_LIGHT0);
 		} else {
-			initMoon(gl);
-			float[] pos1 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
-					-0.0F + carCameraTranslation.z, 1.0F };
+			setupMoon(gl);
+			float[] pos1 = { carCameraTranslation.x, 8 + carCameraTranslation.y,
+					carCameraTranslation.z, 1 };
 			setupSpotlight(gl, GL2.GL_LIGHT0, pos1);
-			float[] pos2 = { 0.0F + carCameraTranslation.x, 8.0F + carCameraTranslation.y,
-					-15.0F + carCameraTranslation.z, 1.0F };
+			float[] pos2 = { carCameraTranslation.x, 8 + carCameraTranslation.y,
+					-15 + carCameraTranslation.z, 1 };
 			setupSpotlight(gl, GL2.GL_LIGHT1, pos2);
 		}
 	}
 
-	private void initSun(GL2 gl, int light) {
-		float[] sunColor = { 1.0F, 1.0F, 1.0F, 1.0F };
-		float[] pos = { 0.0F + carCameraTranslation.x, 60.0F + carCameraTranslation.y,
-				-0.0F + carCameraTranslation.z, 1.0F };
+	private void setupSun(GL2 gl, int light) {
+		float[] sunColor = { 1, 1, 1, 1 };
+		float[] pos = { carCameraTranslation.x, 60 + carCameraTranslation.y,
+				carCameraTranslation.z, 1 };
 		gl.glLightfv(light, GL2.GL_SPECULAR, sunColor, 0);
 		gl.glLightfv(light, GL2.GL_DIFFUSE, sunColor, 0);
 		gl.glLightfv(light, GL2.GL_POSITION, pos, 0);
-		gl.glLightfv(light, GL2.GL_AMBIENT, new float[] { 0.1F, 0.1F, 0.1F, 1.0F }, 0);
+		gl.glLightfv(light, GL2.GL_AMBIENT, new float[] { 0.1f, 0.1f, 0.1f, 1 }, 0);
 		gl.glEnable(light);
 	}
 
-	private void initMoon(GL2 gl) {
-		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[] { 0.15F, 0.15F, 0.18F, 1.0F }, 0);
+	private void setupMoon(GL2 gl) {
+		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[] { 0.15f, 0.15f, 0.18f, 1 }, 0);
 	}
 
 	private void setupSpotlight(GL2 gl, int light, float[] pos) {
-		float[] sunColor = { 0.85F, 0.85F, 0.85F, 1.0F };
+		float[] sunColor = { 0.85f, 0.85f, 0.85f, 1 };
 		gl.glLightfv(light, GL2.GL_POSITION, pos, 0);
-		gl.glLightf(light, GL2.GL_SPOT_CUTOFF, 75.0F);
-		gl.glLightfv(light, GL2.GL_SPOT_DIRECTION, new float[] { 0.0F, -1.0F, 0.0F }, 0);
+		gl.glLightf(light, GL2.GL_SPOT_CUTOFF, 75f);
+		gl.glLightfv(light, GL2.GL_SPOT_DIRECTION, new float[] { 0, -1, 0 }, 0);
 		gl.glLightfv(light, GL2.GL_SPECULAR, sunColor, 0);
 		gl.glLightfv(light, GL2.GL_DIFFUSE, sunColor, 0);
 		gl.glEnable(light);
@@ -211,7 +205,7 @@ public class NeedForSpeed implements GLEventListener {
 		GLU glu = new GLU();
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-		glu.gluPerspective(57.0, (double) width / height, 1, 600);// last values are clipping params
+		glu.gluPerspective(57, (double) width / height, 1, 600);// last values are clipping params
 	}
 
 	/**

@@ -3,7 +3,6 @@ package edu.cg.models;
 import java.io.File;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GL2ES3;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
@@ -58,7 +57,7 @@ public class SkewedBox implements IRenderable {
 
 		// front sqaure
 		gl.glNormal3d(1, 0, 0);
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(length / 2, 0, depth2 / 2);
 		gl.glTexCoord2d(0, 1);
@@ -71,7 +70,7 @@ public class SkewedBox implements IRenderable {
 
 		// back box
 		gl.glNormal3d(-1, 0, 0);
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(-length / 2, 0, -depth1 / 2);
 		gl.glTexCoord2d(0, 1);
@@ -86,7 +85,7 @@ public class SkewedBox implements IRenderable {
 
 		// upper box
 		gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(-length / 2, height1, depth1 / 2);
 		gl.glTexCoord2d(0, 1);
@@ -98,7 +97,7 @@ public class SkewedBox implements IRenderable {
 		gl.glEnd();
 
 		// lower box
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glNormal3d(0, -1, 0);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(-length / 2, 0, depth1 / 2);
@@ -113,7 +112,7 @@ public class SkewedBox implements IRenderable {
 		normalToSurface = new Vec(depth1 - depth2, 0, 1).normalize();
 
 		// right box
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(-length / 2, height1, depth1 / 2);
@@ -126,7 +125,7 @@ public class SkewedBox implements IRenderable {
 		gl.glEnd();
 
 		normalToSurface.z = -1;
-		gl.glBegin(gl.GL_QUADS);
+		gl.glBegin(GL2.GL_QUADS);
 		gl.glNormal3d(normalToSurface.x, normalToSurface.y, normalToSurface.z);
 		gl.glTexCoord2d(0, 0);
 		gl.glVertex3d(-length / 2, 0, -depth1 / 2);
