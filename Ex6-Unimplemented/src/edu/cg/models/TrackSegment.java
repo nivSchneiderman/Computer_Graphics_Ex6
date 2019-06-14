@@ -87,8 +87,6 @@ public class TrackSegment implements IRenderable {
 		renderGrass(gl);
 	}
 
-	// start needs work
-
 	@Override
 	public void init(GL2 gl) {
 		box.init(gl);
@@ -113,7 +111,7 @@ public class TrackSegment implements IRenderable {
 	private void renderAsphalt(GL2 gl) {
 		gl.glPushMatrix();
 		Materials.setAsphaltMaterial(gl);
-		renderTexture(gl, roadTexture, 20, 10, 6, 500);
+		renderQuadraticTexture(gl, roadTexture, 20, 10, 6, 500);
 		gl.glPopMatrix();
 	}
 
@@ -122,44 +120,43 @@ public class TrackSegment implements IRenderable {
 		
 		gl.glPushMatrix();
 		gl.glTranslated(dx, 0, 0);
-		renderTexture(gl, grassTexture, 10, 10, 2, 500);
+		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
 		gl.glTranslated(-2*dx, 0, 0);
-		renderTexture(gl, grassTexture, 10, 10, 2, 500);
+		renderQuadraticTexture(gl, grassTexture, 10, 10, 2, 500);
 		gl.glPopMatrix();
 	}
 
-	private void renderTexture(GL2 gl, Texture tex, double quadWidth, double quadDepth, int split,double totalDepth) {
+	private void renderQuadraticTexture(GL2 gl, Texture texture, double textureWidth, double textureDepth, int split,double totalDepth) {
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-		tex.bind(gl);
+		texture.bind(gl);
 		gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_COLOR, GL2.GL_RGB);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10241, 9987);
 		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 10240, 9729);
 		gl.glTexParameteri(GL2.GL_TEXTURE_2D, 33083, 1);
-		gl.glColor3d(1.0D, 0.0D, 0.0D);
+		gl.glColor3d(1, 0, 0);
 		GLU glu = new GLU();
-		GLUquadric quad = glu.gluNewQuadric();
+		GLUquadric quadric = glu.gluNewQuadric();
 		
-		gl.glColor3d(1.0D, 0.0D, 0.0D);
-		gl.glNormal3d(0.0D, 1.0D, 0.0D);
-		double d = 1.0D / split;
-		double dz = quadDepth / split;
-		double dx = quadWidth / split;
+		gl.glColor3d(1, 0, 0);
+		gl.glNormal3d(0, 1, 0);
+		double d = 1.0 / split;
+		double dz = textureDepth / split;
+		double dx = textureWidth / split;
 		
-		for (double tz = 0.0D; tz < totalDepth; tz += quadDepth) {
-			for (double i = 0.0D; i < split; i += 1.0D) {
+		for (double tz = 0; tz < totalDepth; tz += textureDepth) {
+			for (double i = 0; i < split; i += 1) {
 				gl.glBegin(5);
-				for (double j = 0.0D; j <= split; j += 1.0D) {
-					gl.glTexCoord2d(j * d, (i + 1.0D) * d);
-					gl.glVertex3d(-quadWidth / 2.0D + j * dx, 0.0D, -tz - (i + 1.0D) * dz);
-
+				for (double j = 0; j <= split; j += 1) {
+					gl.glTexCoord2d(j * d, (i + 1) * d);
+					gl.glVertex3d(-textureWidth / 2 + j * dx, 0, -tz - (i + 1) * dz);
 					gl.glTexCoord2d(j * d, i * d);
-					gl.glVertex3d(-quadWidth / 2.0D + j * dx, 0.0D, -tz - i * dz);
+					gl.glVertex3d(-textureWidth / 2 + j * dx, 0, -tz - i * dz);
 				}
 				gl.glEnd();
 			}
 		}
 		
-		glu.gluDeleteQuadric(quad);
+		glu.gluDeleteQuadric(quadric);
 		gl.glDisable(3553);
 	}
 
